@@ -16,3 +16,15 @@ Route::get('/', function () {
 });
 
 Route::resource('/user', 'UserController');
+
+Route::get('/test', function () {
+    return view('test');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('/simpanan', 'SimpananController');
+
+
