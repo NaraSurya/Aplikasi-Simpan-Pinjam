@@ -30,7 +30,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$simpanan->anggota_id}}</td>
-                                <td>{{$simpanan->jenis_transaksi}}</td>
+                                <td>{{$simpanan->transaksi->transaksi}}</td>
                                 <td>{{$simpanan->nominal_transaksi}}</td>
                                 <td>{{$simpanan->tanggal}}</td>
                                 <td>

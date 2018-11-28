@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Simpanan extends Model
 {
-    public function jenis_transaksi (){
+    public function transaksi (){
         return $this->belongsTo('App\JenisTransaksi','jenis_transaksi');
     }
 
