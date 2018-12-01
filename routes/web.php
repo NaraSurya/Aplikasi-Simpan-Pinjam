@@ -16,5 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    return view('test');
+    return view('anggota.perbaikan');
 });
+
+Route::resource('anggota', 'AnggotaController');
+Route::resource('usera', 'AnggotaController');
