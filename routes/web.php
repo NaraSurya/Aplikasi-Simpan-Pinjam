@@ -18,13 +18,13 @@ Route::get('/', function () {
 Route::resource('/user', 'UserController');
 
 Route::get('/test', function () {
-    return view('test');
+    return view('anggota.perbaikan');
 });
 
+Route::resource('anggota', 'AnggotaController');
+Route::resource('usera', 'AnggotaController');
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
-
 Route::resource('/simpanan', 'SimpananController');
 
 
