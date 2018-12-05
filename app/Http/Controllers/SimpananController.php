@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Simpanan;
+use App\anggota;
 use App\JenisTransaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SimpananController extends Controller
@@ -16,7 +18,8 @@ class SimpananController extends Controller
     public function index()
     {
         $simpanans = Simpanan::get();
-        return view('simpanan.list',['simpanans'=>$simpanans]);
+        return view('simpanan.search',['simpanans'=>$simpanans]);
+        // return view('simpanan.list',['simpanans'=>$simpanans]);
     }
 
     /**
@@ -40,20 +43,20 @@ class SimpananController extends Controller
      */
     public function store(Request $request)
     {
+        $now = Carbon::now()->toDateString();
+        
          $this->validate($request, [
-            'id' => 'required',
             'nominal' => 'required',
-            'tanggal' => 'required',
             'jenis' => 'required'
         ]);
         $simpanan = Simpanan::create([
-            'anggota_id' => $request->id,
-            'tanggal' => $request->tanggal,
+            'anggota_id' => $request->anggota_id,
+            'tanggal' => $now,
             'jenis_transaksi' => $request->jenis,
             'nominal_transaksi' => $request->nominal,
             'user_id' => 1
         ]);
-
+           
         return redirect('/simpanan');
 
     }
@@ -66,7 +69,14 @@ class SimpananController extends Controller
      */
     public function show(Simpanan $simpanan)
     {
-        //
+        // $id = $request->search;
+        // $anggota = anggota::where('no_anggota',$id)->get();
+
+        // if ($anggota) {
+        //     return view('simpanan.list_anggota',['anggotas' => $anggota]);
+        // } else {
+        //    return 'tidak ketemu'; 
+        // }
     }
 
     /**
@@ -98,13 +108,14 @@ class SimpananController extends Controller
             'jenis' => 'required'
         ]);
         
-            $simpanan->anggota_id = $request->id;
+            $simpanan->anggota_id = $request->anggota_id;
             $simpanan->tanggal = $request->tanggal;
             $simpanan->jenis_transaksi = $request->jenis;
             $simpanan->nominal_transaksi = $request->nominal;
             $simpanan->user_id = 1;
             $simpanan->save();
 
+            return 'Transaksi Berhasil Ditambahkan';
             return redirect('/simpanan');
     }
 
@@ -119,4 +130,16 @@ class SimpananController extends Controller
         $simpanan->delete();
         return redirect('/simpanan');
     }
+
+    public function search(Request $request){
+        $traks = JenisTransaksi::get();
+        $id = $request->search;
+        $anggotas = anggota::where('no_anggota',$id)->first();
+        if ($anggotas) {
+            return view('simpanan.list_anggota',['anggotas' => $anggotas, 'traks' => $traks]);
+        } else {
+           return 'tidak ketemu'; 
+        }
+    }
+    
 }

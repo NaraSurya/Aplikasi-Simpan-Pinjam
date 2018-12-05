@@ -38,8 +38,11 @@
   <body>
     <nav class="navbar navbar-dark fixed-top dark flex-md-nowrap py-3 opacity-1 ">
       <div class="relative w-25 form-inline justify-content-center search-bar">
-        <span><i class="fas fa-lg fa-search"></i></span>
-        <input class=" search form-control form-control-no-border form-control-sm w-75 justify-content-center mx-2" type="text" placeholder="Search" aria-label="Search">
+        <form action="@yield('action')" method="GET">
+            <span><i class="fas fa-lg fa-search"></i></span>
+            <input class=" search form-control form-control-no-border form-control-sm w-75 justify-content-center mx-2" type="text" name="search" placeholder="Search" aria-label="Search">
+        </form>
+       
       </div>
 
       <ul class="navbar-nav px-3 mx-5">
@@ -75,7 +78,7 @@
                 </a>
               </li>
               <li class="nav-item mb-3">
-                <a class="nav-link text-purple" href="#">
+                <a class="nav-link text-purple" href="/simpanan">
                   <i class="fas fa-3x fa-hand-holding-usd"></i>
                 </a>
               </li>
