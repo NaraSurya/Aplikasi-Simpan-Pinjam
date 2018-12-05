@@ -35,6 +35,12 @@
             <div class="col-12">
                 <h5>{{$anggota->no_anggota}}</h5>
             </div>
+            <div class="col-12">
+                <h5>{{$anggota->no_tlp}}</h5>
+            </div>
+            <div class="col-12">
+                    <h5>{{$anggota->saldo}}</h5>
+            </div>
         </div>
     </div>
 @endsection

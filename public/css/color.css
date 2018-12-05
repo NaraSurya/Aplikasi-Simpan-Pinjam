@@ -48,3 +48,12 @@ Border color
 .border-purple{
     border-color: #AC90FE !important;
 }
+
+/*
+button
+*/
+
+.btn-purple-white{
+    background-color: #AC90FE !important;
+    color: white !important;
+}
