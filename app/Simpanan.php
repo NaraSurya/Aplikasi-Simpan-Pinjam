@@ -13,5 +13,8 @@ class Simpanan extends Model
     protected $fillable = ['anggota_id' , 'tanggal' , 'jenis_transaksi' , 'nominal_transaksi','user_id'];
     public $timestamps = false;
 
+    public function anggota(){
+        return $this->belongsTo('App\anggota');
+    }
   
 }
