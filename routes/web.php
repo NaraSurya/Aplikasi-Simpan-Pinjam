@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('/user', 'UserController');
 
 Route::get('/test', function () {
     return view('anggota.perbaikan');
@@ -25,4 +26,6 @@ Route::resource('usera', 'AnggotaController');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/simpanan', 'SimpananController');
+
+Route::get('/simpanan-search','SimpananController@search');
 
