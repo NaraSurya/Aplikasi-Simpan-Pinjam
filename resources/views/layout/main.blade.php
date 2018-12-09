@@ -35,7 +35,7 @@
     @yield('style')
   </head>
 
-  <body>
+  <body class="dark-gradient">
     <nav class="navbar navbar-dark fixed-top dark flex-md-nowrap py-3 opacity-1 ">
       <div class="relative w-25 form-inline justify-content-center search-bar">
         <form action="@yield('action')" method="GET">

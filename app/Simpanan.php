@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Simpanan extends Model
 {
     public function transaksi (){
@@ -15,6 +16,20 @@ class Simpanan extends Model
 
     public function anggota(){
         return $this->belongsTo('App\anggota');
+    }
+
+    public function kredit(){
+        if($this->jenis_transaksi == 2 or $this->jenis_transaksi == 3){
+            return $this->nominal_transaksi;
+        }
+        return "-";
+    }
+
+    public function debit(){
+        if($this->jenis_transaksi == 1 or $this->jenis_transaksi == 4){
+            return $this->nominal_transaksi;
+        }
+        return "-";
     }
   
 }

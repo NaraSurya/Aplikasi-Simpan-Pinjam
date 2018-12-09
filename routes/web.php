@@ -28,4 +28,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/simpanan', 'SimpananController');
 
 Route::get('/simpanan-search','SimpananController@search');
+Route::get('/anggota-search','AnggotaController@search');
 

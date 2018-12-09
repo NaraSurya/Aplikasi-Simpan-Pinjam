@@ -15,6 +15,9 @@ class AnggotaController extends Controller
     public function index()
     {
         $anggotas = anggota::all();
+        foreach($anggotas as $anggota){
+            $anggota['saldo']= $anggota->saldo();
+        }       
         return view('anggota.index' , ['anggotas'=> $anggotas]);
     }
 
@@ -49,10 +52,10 @@ class AnggotaController extends Controller
         
         
         
-        $no_anggota = $request->no_ktp.time();
+        
 
         if($request->hasFile('foto_profile')){
-            $fileName = $no_anggota.'_profile';
+            $fileName = $request->no_ktp.'_profile';
             $fileExtension = $request->file('foto_profile')->getClientOriginalExtension();
             $fileNameToStorage = $fileName.'_'.time().'.'.$fileExtension;
             $filePath = $request->file('foto_profile')->storeAs('public/anggota' , $fileNameToStorage); 
@@ -61,8 +64,7 @@ class AnggotaController extends Controller
             $filePath = 'NULL';
         }
         
-        $anggota = anggota::create([
-            'no_anggota' => $no_anggota , 
+        $anggota = anggota::create([ 
             'no_ktp' => $request->no_ktp , 
             'nama' => $request->nama , 
             'alamat' => $request->alamat , 
@@ -72,6 +74,9 @@ class AnggotaController extends Controller
             'user_id' => $request->user_id , 
             'foto_profile'=> $fileNameToStorage
         ]);
+
+        $anggota->no_anggota = $anggota->generate_no_anggota(); 
+        $anggota->save();
 
         return redirect('/anggota');
     }
@@ -157,5 +162,16 @@ class AnggotaController extends Controller
         $anggota = anggota::find($id);
         $anggota->delete();
         return redirect('/anggota'); 
+    }
+
+    public function search(Request $request){
+        $search = $request->search;
+        $anggotas = anggota::where('no_anggota' , 'like' , '%'.$search.'%')
+                            ->orWhere('nama' , 'like' , '%'.$search.'%') 
+                            ->orWhere('alamat' , 'like' , '%'.$search.'%')
+                            ->orWhere('no_ktp' , 'like' , '%'.$search.'%')
+                            ->orWhere('no_tlp' , 'like' , '%'.$search.'%')
+                            ->orWhere('tgl_lahir' , 'like' , '%'.$search.'%')->get();
+        return view('anggota.resultSearch', ['anggotas'=>$anggotas]);
     }
 }
