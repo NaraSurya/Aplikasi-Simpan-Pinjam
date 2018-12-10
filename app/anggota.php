@@ -14,12 +14,8 @@ class anggota extends Model
         return $this->id % 1000; 
     }
     public function generate_no_anggota(){
-        $date = carbon::now()->format('mdy');
+        $date = carbon::now()->format('dmy');
         return (string)$date*1000+$this->no_urut();
-    }
-
-    public function simpanan(){
-        return $this->hasMany('App\Simpanan');
     }
     
     public function saldo(){
@@ -54,6 +50,10 @@ class anggota extends Model
         return $saldo;
     }
 
+    // Relathionship function~
+    public function simpanan(){
+        return $this->hasMany('App\Simpanan');
+    }
 
 
 }

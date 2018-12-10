@@ -1,5 +1,6 @@
 @extends('layout.main')
 @section('title' , 'Pendaftaran')
+@section('action','/anggota-search')
 @section('content')
     <div class="container-fluid">
         <div class="p-5 dark text-white">

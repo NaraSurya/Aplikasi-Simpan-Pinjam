@@ -1,5 +1,6 @@
 @extends('layout.main')
 @section('title' , 'show')
+@section('action','/anggota-search')
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -78,7 +79,9 @@
             </div>
             <div class="col-sm-12 col-md-7">
                 <div class="dark w-100 h-100">
+                    <canvas id="riwayatChart">
 
+                    </canvas>
                 </div>
             </div>
         </div>
@@ -117,3 +120,37 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        var labels = {!! json_encode($labels)  !!}
+        var datas = {!! json_encode($datas) !!}
+        var ctx = document.getElementById('riwayatChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "History Saldo",
+                    borderColor: 'rgb(27,40,247)',
+                    data: datas,
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+                
+            }
+        });
+    </script>
+@endsection
+

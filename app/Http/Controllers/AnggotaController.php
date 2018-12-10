@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\anggota;
+use App\Simpanan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AnggotaController extends Controller
 {
@@ -17,8 +19,16 @@ class AnggotaController extends Controller
         $anggotas = anggota::all();
         foreach($anggotas as $anggota){
             $anggota['saldo']= $anggota->saldo();
-        }       
-        return view('anggota.index' , ['anggotas'=> $anggotas]);
+        } 
+        $date = carbon::now(); 
+        $labels[0] =  date("F", mktime(0, 0, 0, $date->month, 10));
+        $datas[0] = anggota::whereMonth('created_at',$date->month)->count();
+        for($loop=1;$loop<7;$loop++){
+           $labels[$loop] = date("F", mktime(0, 0, 0, $date->subMonth()->month, 10)); 
+           $datas[$loop] = anggota::whereMonth('created_at',$date->month)->count();
+        } 
+        
+        return view('anggota.index' , ['anggotas'=> $anggotas , 'labels'=>array_reverse($labels), 'datas'=>array_reverse($datas)] );
     }
 
     /**
@@ -89,8 +99,20 @@ class AnggotaController extends Controller
      */
     public function show($id)
     {
+        $date = carbon::now(); 
         $anggota = anggota::find($id);
-        return view('anggota.show' , ['anggota'=> $anggota]);
+        $riwayats = Simpanan::where('anggota_id', $anggota->id)
+                            ->whereMonth('tanggal', $date->month )
+                            ->get();
+        $data=[];
+        $label = [];
+        $iterate = 0;
+        foreach($riwayats as $riwayat){
+            $data[$iterate] = $anggota->saldoAt($riwayat->id); 
+            $label[$iterate] = Carbon::parse($riwayat->tanggal)->toDateString();
+            $iterate++;
+        }
+        return view('anggota.show' , ['anggota'=> $anggota , 'labels'=>$label , 'datas' => $data]);
     }
 
     /**
@@ -172,6 +194,9 @@ class AnggotaController extends Controller
                             ->orWhere('no_ktp' , 'like' , '%'.$search.'%')
                             ->orWhere('no_tlp' , 'like' , '%'.$search.'%')
                             ->orWhere('tgl_lahir' , 'like' , '%'.$search.'%')->get();
+        if($anggotas->count() == 1){
+            return redirect('/anggota/'.$anggotas->first()->id);
+        }
         return view('anggota.resultSearch', ['anggotas'=>$anggotas]);
     }
 }

@@ -63,7 +63,9 @@
             </div>
             <div class="col-sm-12 col-md-6">
                 <div class="w-100 h-100 bg-dark">
+                    <canvas id="anggotaChart">
 
+                    </canvas>
                 </div>
             </div>
         </div>
@@ -111,5 +113,38 @@
             @endforeach   
         </div>
    </div>
+@endsection
+@section('script')
+    <script>
+        var labels = {!! json_encode($labels)  !!}
+        var datas = {!! json_encode($datas) !!}
+        var ctx = document.getElementById('anggotaChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Jumlah Anggota Baru",
+                    backgroundColor: 'rgb(27,40,247)',
+                    borderColor: 'rgb(27,40,247)',
+                    data: datas,
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
 @endsection
 
